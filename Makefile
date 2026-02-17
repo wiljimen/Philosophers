@@ -6,14 +6,14 @@
 #    By: wiljimen <wiljimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 07:07:38 by wiljimen          #+#    #+#              #
-#    Updated: 2026/02/16 16:56:36 by wiljimen         ###   ########.fr        #
+#    Updated: 2026/02/17 22:41:30 by wiljimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -pthread
 INCLUDES = -I inc
 RM = rm -f
 MAKEFLAGS += --silent

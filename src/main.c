@@ -6,7 +6,7 @@
 /*   By: wiljimen <wiljimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 16:41:00 by wiljimen          #+#    #+#             */
-/*   Updated: 2026/02/16 16:41:01 by wiljimen         ###   ########.fr       */
+/*   Updated: 2026/02/17 21:41:16 by wiljimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	usage(void)
 {
-	printf("Usage: ./philo n t_die t_eat t_sleep [must_eat]\n");
+	printf("Error\n");
 	return (1);
 }
 
