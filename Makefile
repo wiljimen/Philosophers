@@ -6,7 +6,7 @@
 #    By: wiljimen <wiljimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 07:07:38 by wiljimen          #+#    #+#              #
-#    Updated: 2026/02/16 07:15:19 by wiljimen         ###   ########.fr        #
+#    Updated: 2026/02/16 16:56:36 by wiljimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ INCLUDES = -I inc
 RM = rm -f
 MAKEFLAGS += --silent
 
-SRC = src/main.c src/parse.c src/time.c src/init.c src/thread.c src/utils.c
+SRC = src/main.c src/parse.c src/time.c src/rules.c src/init.c \
+      src/meals.c src/philos.c src/thread.c
 OBJ = $(SRC:.c=.o)
 
 RED       := \033[91;1m

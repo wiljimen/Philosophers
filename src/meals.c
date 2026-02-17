@@ -1,35 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time.c                                             :+:      :+:    :+:   */
+/*   meals.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wiljimen <wiljimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/16 16:41:52 by wiljimen          #+#    #+#             */
-/*   Updated: 2026/02/16 16:41:53 by wiljimen         ###   ########.fr       */
+/*   Created: 2026/02/16 16:47:32 by wiljimen          #+#    #+#             */
+/*   Updated: 2026/02/16 16:54:32 by wiljimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-long	now_ms(void)
+void	meal_update(t_philo *p)
 {
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000L + tv.tv_usec / 1000L);
+	pthread_mutex_lock(&p->meal_mtx);
+	p->last_meal_ms = now_ms();
+	p->meals++;
+	pthread_mutex_unlock(&p->meal_mtx);
 }
 
-long	since_start(t_rules *r)
+long	meal_get_last(t_philo *p)
 {
-	return (now_ms() - r->start_ms);
+	long	v;
+
+	pthread_mutex_lock(&p->meal_mtx);
+	v = p->last_meal_ms;
+	pthread_mutex_unlock(&p->meal_mtx);
+	return (v);
 }
 
-void	smart_sleep(t_rules *r, long ms)
+int	meal_get_count(t_philo *p)
 {
-	long	start;
+	int	v;
 
-	start = now_ms();
-	while (!get_stop(r) && (now_ms() - start) < ms)
-		usleep(300);
+	pthread_mutex_lock(&p->meal_mtx);
+	v = p->meals;
+	pthread_mutex_unlock(&p->meal_mtx);
+	return (v);
 }

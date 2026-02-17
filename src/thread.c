@@ -5,41 +5,54 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wiljimen <wiljimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/16 07:04:26 by wiljimen          #+#    #+#             */
-/*   Updated: 2026/02/16 07:04:37 by wiljimen         ###   ########.fr       */
+/*   Created: 2026/02/16 16:49:08 by wiljimen          #+#    #+#             */
+/*   Updated: 2026/02/16 16:54:53 by wiljimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-void	*philo_routine(void *arg)
+static int	all_ate(t_rules *r)
 {
-	t_philo	*p;
+	int	i;
 
-	p = (t_philo *)arg;
-	p->last_meal_ms = now_ms();
-	if (p->id % 2 == 0)
-		usleep(1000);
+	if (r->must_eat < 0)
+		return (0);
+	i = 0;
+	while (i < r->n)
+		if (meal_get_count(&r->philos[i++]) < r->must_eat)
+			return (0);
+	return (1);
+}
 
-	while (!get_stop(p->r))
+static int	check_death(t_rules *r)
+{
+	int		i;
+	long	last;
+
+	i = 0;
+	while (i < r->n && !get_stop(r))
 	{
-		pthread_mutex_lock(p->l_fork);
-		print_action(p, "has taken a fork");
-		pthread_mutex_lock(p->r_fork);
-		print_action(p, "has taken a fork");
+		last = meal_get_last(&r->philos[i]);
+		if (now_ms() - last > r->t_die)
+			return (set_stop(r, 1), print_death(r, r->philos[i].id), 1);
+		i++;
+	}
+	return (0);
+}
 
-		print_action(p, "is eating");
-		p->last_meal_ms = now_ms();
-		p->meals++;
-		ms_sleep(p->r->t_eat);
+void	*monitor_routine(void *arg)
+{
+	t_rules	*r;
 
-		pthread_mutex_unlock(p->r_fork);
-		pthread_mutex_unlock(p->l_fork);
-
-		print_action(p, "is sleeping");
-		ms_sleep(p->r->t_sleep);
-
-		print_action(p, "is thinking");
+	r = (t_rules *)arg;
+	while (!get_stop(r))
+	{
+		if (check_death(r))
+			return (NULL);
+		if (!get_stop(r) && all_ate(r))
+			return (set_stop(r, 1), NULL);
+		usleep(1000);
 	}
 	return (NULL);
 }
@@ -51,11 +64,16 @@ int	start_threads(t_rules *r)
 	i = 0;
 	while (i < r->n)
 	{
-		if (pthread_create(&r->philos[i].th, NULL,
-				philo_routine, &r->philos[i]) != 0)
+		pthread_mutex_lock(&r->philos[i].meal_mtx);
+		r->philos[i].last_meal_ms = r->start_ms;
+		r->philos[i].meals = 0;
+		pthread_mutex_unlock(&r->philos[i].meal_mtx);
+		if (pthread_create(&r->philos[i].th, NULL, philo_routine, &r->philos[i]))
 			return (0);
 		i++;
 	}
+	if (pthread_create(&r->monitor_th, NULL, monitor_routine, r))
+		return (0);
 	return (1);
 }
 
@@ -63,11 +81,9 @@ int	join_threads(t_rules *r)
 {
 	int	i;
 
+	pthread_join(r->monitor_th, NULL);
 	i = 0;
 	while (i < r->n)
-	{
-		pthread_join(r->philos[i].th, NULL);
-		i++;
-	}
+		pthread_join(r->philos[i++].th, NULL);
 	return (1);
 }
