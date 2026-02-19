@@ -6,7 +6,7 @@
 /*   By: wiljimen <wiljimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 16:49:08 by wiljimen          #+#    #+#             */
-/*   Updated: 2026/02/18 20:57:56 by wiljimen         ###   ########.fr       */
+/*   Updated: 2026/02/19 13:20:09 by wiljimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ int	start_threads(t_rules *r)
 		r->philos[i].last_meal_ms = r->start_ms;
 		r->philos[i].meals = 0;
 		pthread_mutex_unlock(&r->philos[i].meal_mtx);
-		if (pthread_create(&r->philos[i].th, NULL, philo_routine, &r->philos[i]))
+		if (pthread_create(&r->philos[i].th, NULL,
+				philo_routine, &r->philos[i]))
 			return (0);
 		i++;
 	}
