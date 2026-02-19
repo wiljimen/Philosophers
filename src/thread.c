@@ -6,7 +6,7 @@
 /*   By: wiljimen <wiljimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 16:49:08 by wiljimen          #+#    #+#             */
-/*   Updated: 2026/02/16 16:54:53 by wiljimen         ###   ########.fr       */
+/*   Updated: 2026/02/18 20:57:56 by wiljimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	start_threads(t_rules *r)
 {
 	int	i;
 
+	r->start_ms = now_ms();
 	i = 0;
 	while (i < r->n)
 	{

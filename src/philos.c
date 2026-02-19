@@ -6,7 +6,7 @@
 /*   By: wiljimen <wiljimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 16:47:55 by wiljimen          #+#    #+#             */
-/*   Updated: 2026/02/17 21:23:21 by wiljimen         ###   ########.fr       */
+/*   Updated: 2026/02/18 21:18:52 by wiljimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	*philo_routine(void *arg)
 	{
 		if (!take_forks(p))
 			return (smart_sleep(p->r, p->r->t_die + 5), NULL);
-		meal_update(p);
+		meal_set_last(p, now_ms());
+		meal_inc(p);
 		print_action(p, "is eating");
 		smart_sleep(p->r, p->r->t_eat);
 		drop_forks(p);
@@ -47,7 +48,10 @@ int	take_forks(t_philo *p)
 		pthread_mutex_lock(p->l_fork);
 		print_action(p, "has taken a fork");
 		if (p->l_fork == p->r_fork)
+		{
+			pthread_mutex_unlock(p->l_fork);
 			return (0);
+		}
 		pthread_mutex_lock(p->r_fork);
 		print_action(p, "has taken a fork");
 	}

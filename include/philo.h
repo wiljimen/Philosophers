@@ -63,7 +63,8 @@ int		init_all(t_rules *r);
 void	destroy_all(t_rules *r);
 
 /*----MEALS----*/
-void	meal_update(t_philo *p);
+void    meal_inc(t_philo *p);
+void    meal_set_last(t_philo *p, long ms);
 long	meal_get_last(t_philo *p);
 int		meal_get_count(t_philo *p);
 

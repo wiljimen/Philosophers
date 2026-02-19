@@ -45,7 +45,10 @@ man pthread_mutex_lock
 
 The Dining Philosophers Problem — Edsger Dijkstra.
 
-This YouTube videos: https://www.youtube.com/watch?v=tvgU3-RzAqk&list=PL19snTOMdnWv3-ceesGoZ9FhKqPrEHJjT
+This YouTube videos:
+- https://www.youtube.com/watch?v=tvgU3-RzAqk&list=PL19snTOMdnWv3-ceesGoZ9FhKqPrEHJjT
+- https://youtu.be/zOpzGHwJ3MU?si=a2aNsT-TXhCDnL56
+- https://youtu.be/8KFvrgbuWxY?si=Evu5CrwOHTKt0BKe
 
 ### AI Usage
 

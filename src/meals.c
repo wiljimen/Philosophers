@@ -6,18 +6,24 @@
 /*   By: wiljimen <wiljimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 16:47:32 by wiljimen          #+#    #+#             */
-/*   Updated: 2026/02/16 16:54:32 by wiljimen         ###   ########.fr       */
+/*   Updated: 2026/02/18 20:54:43 by wiljimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-void	meal_update(t_philo *p)
+void    meal_set_last(t_philo *p, long ms)
 {
-	pthread_mutex_lock(&p->meal_mtx);
-	p->last_meal_ms = now_ms();
-	p->meals++;
-	pthread_mutex_unlock(&p->meal_mtx);
+    pthread_mutex_lock(&p->meal_mtx);
+    p->last_meal_ms = ms;
+    pthread_mutex_unlock(&p->meal_mtx);
+}
+
+void    meal_inc(t_philo *p)
+{
+    pthread_mutex_lock(&p->meal_mtx);
+    p->meals++;
+    pthread_mutex_unlock(&p->meal_mtx);
 }
 
 long	meal_get_last(t_philo *p)
